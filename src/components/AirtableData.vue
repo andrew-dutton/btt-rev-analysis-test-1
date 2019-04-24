@@ -1,51 +1,37 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col>
-        <div>
-          <b-table responsive class="small" striped hover :items="items" :fields="fields"></b-table>
-        </div>
-      </b-col>
-    </b-row> 
-  </b-container>
+  <hot-table licenseKey='non-commercial-and-evaluation' :settings="settings"></hot-table>
 </template>
 
 <script>
 import axios from 'axios'
+import { HotTable } from '@handsontable/vue'
 
 export default {
   name: 'Index',
   data () {
     return {
-      fields: [
-        { key: "Invoicenumber", sortable: true, label: "Invoice.Number" },
-        { key: "invoiceDate", sortable: true },
-        { key: "clientName", sortable: true },
-        { key: "revenueType", sortable: true },
-        { key: "itemType", sortable: true },
-        { key: "ebVnb", sortable: true, label: "EB / New Bus" },
-        { key: "Itemcode", sortable: true, label: "Item Code" },
-        { key: "accountCode", sortable: true },
-        { key: "contractStartDate", sortable: true },
-        { key: "contractEndDate", sortable: true },
-        { key: "termDays", sortable: true },
-        { key: "termMonths", sortable: true },
-        { key: "contractValuePerMonth", sortable: true },
-        { key: "currency", sortable: true },
-        { key: "financialYear", sortable: true },
-        { key: "itemTotal", sortable: true },
-      ],
-      records: [],
-      items: []
+      settings: {
+        data: [],
+        colHeaders: ['Invoice Number', 'Invoice Date', 'Client Name', 'Revenue Type', 'Item Type', 'EB / NB', 'Item Code', 'Account Code', 'Start Date', 'End Date', 'Term Days', 'Term Months', '$ Value Month', 'Currency','FY','Total','Notes'
+        ],
+        rowHeaders: [],
+        columnSorting: true,
+        manualColumnResize: true,
+        manualRowResize: true
+        },
+      records: []
     }
+  },
+  components: {
+    HotTable
   },
   methods: {
     getData() {
-      axios.get('https://api.airtable.com/v0/appes0AhRWhnBvazS/fullDataSet?api_key=API_KEY')
+      axios.get('https://api.airtable.com/v0/appes0AhRWhnBvazS/Revenue%20Data?api_key=API_KEY')
       .then(response => {
         this.records = response.data.records
         this.records.forEach(item => {
-          this.items.push(item.fields)
+          this.settings.data.push(item.fields)
         })
       }).catch(err => {
           console.log(err)
@@ -56,11 +42,7 @@ export default {
   this.getData()
   }
 }
-
+// ./../../node_modules
 </script>
 
-<style scoped>
-.small {
-  font-size: 60%
-}
-</style>
+<style src="../../node_modules/handsontable/dist/handsontable.full.css"></style>

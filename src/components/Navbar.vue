@@ -1,8 +1,7 @@
 <template>
   <div>
-    <b-jumbotron header="BTT Revenue Data Analysis" lead="Test Data...">
-      <p>Work in progress</p>
-      <b-button variant="primary" href="#">More Info</b-button>
+    <b-jumbotron header="BTT Revenue Data Analysis" lead="Live Search">
+      <input type="text"></input> <b-button variant="primary" href="#">Search</b-button>  
     </b-jumbotron>
   </div>
 
