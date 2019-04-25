@@ -22,17 +22,17 @@ export default {
           { data: 'clientName' },
           { data: 'revenueType' },
           { data: 'itemType' },
-          { data: 'ebVnb' },
+          { data: 'ebVnb', className: 'htCenter' },
           { data: 'itemCode' },
-          { data: 'accountCode' },
+          { data: 'accountCode', className: 'htCenter' },
           { data: 'contractStart' },
           { data: 'contractEnd' },
-          { data: 'days' },
-          { data: 'months' },
+          { data: 'days', className: 'htCenter' },
+          { data: 'months', className: 'htCenter' },
           { data: 'valuePerMonth' },
-          { data: 'currency' },
-          { data: 'territory' },
-          { data: 'finYear' },
+          { data: 'currency', className: 'htCenter' },
+          { data: 'territory', className: 'htCenter' },
+          { data: 'finYear', className: 'htCenter' },
           { data: 'total', type: 'numeric',
             numericFormat: {
               pattern: '$ 0,0.00',
@@ -56,7 +56,6 @@ export default {
       axios.get('https://api.airtable.com/v0/appes0AhRWhnBvazS/Revenue%20Data?api_key=API_KEY')
       .then(response => {
         this.records = response.data.records
-        this.dataButtonClicked = !this.dataButtonClicked
         this.records.forEach(item => {
           this.settings.data.push(item.fields)
         })

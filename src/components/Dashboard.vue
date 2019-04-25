@@ -4,26 +4,32 @@
       <b-col cols="1"></b-col>
 
        <b-col cols="10">
-         <b-jumbotron id="jumbo" header="BTT Revenue Data Analysis">
-        </b-jumbotron>
+        <h1 id="dashboard">Dashboard...</h1>
       </b-col>
 
       <b-col cols="1"></b-col>
     </b-row>
   </div>
-
 </template>
 
 <script>
 export default {
-  name: 'Navbar',
+  name: 'dashboard',
   props: {
-    msg: String
+    msg: {
+      type: String
+    }
+  },
+  data() {
+    return {
+      value: "not received"
+    }
   }
 }
+
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 
 </style>
+
