@@ -1,5 +1,7 @@
 <template>
-  <hot-table licenseKey='non-commercial-and-evaluation' :settings="settings"></hot-table>
+  <div>
+      <hot-table id="tableData" licenseKey='non-commercial-and-evaluation' :settings="settings"></hot-table>
+ </div>
 </template>
 
 <script>
@@ -12,12 +14,36 @@ export default {
     return {
       settings: {
         data: [],
-        colHeaders: ['Invoice Number', 'Invoice Date', 'Client Name', 'Revenue Type', 'Item Type', 'EB / NB', 'Item Code', 'Account Code', 'Start Date', 'End Date', 'Term Days', 'Term Months', '$ Value Month', 'Currency','FY','Total','Notes'
+        colHeaders: ['Invoice<br>Number', 'Invoice<br>Date', 'Client Name', 'Revenue<br>Type', 'Item<br>Type', 'EB/<br>NB', 'Item<br>Code', 'Account<br>Code', 'Start<br>Date', 'End<br>Date', 'Term<br>Days', 'Term<br>Months', '$ Value<br>month', 'Currency', 'Territory', 'FY','Total'
         ],
+        columns: [
+          { data: 'invoiceNumber' }, 
+          { data: 'invoiceDate', type: 'date'}, 
+          { data: 'clientName' },
+          { data: 'revenueType' },
+          { data: 'itemType' },
+          { data: 'ebVnb' },
+          { data: 'itemCode' },
+          { data: 'accountCode' },
+          { data: 'contractStart' },
+          { data: 'contractEnd' },
+          { data: 'days' },
+          { data: 'months' },
+          { data: 'valuePerMonth' },
+          { data: 'currency' },
+          { data: 'territory' },
+          { data: 'finYear' },
+          { data: 'total', type: 'numeric',
+            numericFormat: {
+              pattern: '$ 0,0.00',
+              culture: 'en-US'}}
+          ],
         rowHeaders: [],
         columnSorting: true,
         manualColumnResize: true,
-        manualRowResize: true
+        manualRowResize: true,
+        dropdownMenu: true,
+        colWidths:[70, 97, 395, 155, 88, 41, 97, 60, 79, 78, 42, 49, 94, 56, 55, 41, 88]
         },
       records: []
     }
@@ -30,6 +56,7 @@ export default {
       axios.get('https://api.airtable.com/v0/appes0AhRWhnBvazS/Revenue%20Data?api_key=API_KEY')
       .then(response => {
         this.records = response.data.records
+        this.dataButtonClicked = !this.dataButtonClicked
         this.records.forEach(item => {
           this.settings.data.push(item.fields)
         })
@@ -39,10 +66,12 @@ export default {
     }
   },
   created() {
-  this.getData()
+    this.getData()
   }
 }
-// ./../../node_modules
+
 </script>
 
-<style src="../../node_modules/handsontable/dist/handsontable.full.css"></style>
+<style src="../../node_modules/handsontable/dist/handsontable.full.css">
+
+</style>
