@@ -1,14 +1,52 @@
+#app {
+  min-height: 1150px;
+  background-color: #F1F4F5;
+}
+
+#search {
+  padding: 20px;
+}
+
+#buttonPadding {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 #tableData {
   font-size: .65rem;
 }
 
 #jumbo {
-  background-color: rgb(81, 136, 218)
+  background-color: rgb(81, 136, 218);
+  padding: 20px;
 }
 
 #dashboard {
-  text-decoration: underline;
-  padding: 20px
+  min-height: 300px;
+  padding: 2em;
+}
+
+#dashboardBox {
+  border: 1px solid black ;
+  min-height: 250px;
+  margin: 5px
+}
+
+#container {
+  padding-left: 20px
+}
+
+#filters {
+  padding: 20px;
+}
+
+#data {
+  padding: 20px;
+}
+
+.boxed {
+  border: 1px solid green ;
+  padding: 20px;
 }
 
 @import "../../../node_modules/bootstrap/scss/bootstrap";

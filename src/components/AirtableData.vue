@@ -1,7 +1,12 @@
 <template>
-  <div>
+  <div id="data">
+    <div id="buttonPadding">
+      <b-button variant="warning" v-on:click="clickToGetData">Click to get data</b-button>
+    </div>
+    <div v-if="dataDisplay">
       <hot-table id="tableData" licenseKey='non-commercial-and-evaluation' :settings="settings"></hot-table>
- </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -43,9 +48,11 @@ export default {
         manualColumnResize: true,
         manualRowResize: true,
         dropdownMenu: true,
+        filters: true,
         colWidths:[70, 97, 395, 155, 88, 41, 97, 60, 79, 78, 42, 49, 94, 56, 55, 41, 88]
         },
-      records: []
+      records: [],
+      dataDisplay: false
     }
   },
   components: {
@@ -53,7 +60,7 @@ export default {
   },
   methods: {
     getData() {
-      axios.get('https://api.airtable.com/v0/appes0AhRWhnBvazS/Revenue%20Data?api_key=API_KEY')
+      axios.get('https://api.airtable.com/v0/appes0AhRWhnBvazS/Revenue%20Data?api_key=keyjtlRAZz7fn2hyK')
       .then(response => {
         this.records = response.data.records
         this.records.forEach(item => {
@@ -62,11 +69,16 @@ export default {
       }).catch(err => {
           console.log(err)
       })
-    }
   },
-  created() {
-    this.getData()
+    clickToGetData() {
+      this.settings.data = []
+      this.dataDisplay = !this.dataDisplay
+      if (this.dataDisplay) {
+        this.getData()  
+      }
+    }
   }
+
 }
 
 </script>
