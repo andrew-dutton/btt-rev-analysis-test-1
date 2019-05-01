@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Navbar />
+    <DateAndRates />
     <Dashboard />   
     <Filters />
     <AirtableData />
@@ -12,11 +13,13 @@ import Navbar from './components/Navbar.vue'
 import AirtableData from './components/AirtableData.vue'
 import Dashboard from './components/Dashboard.vue'
 import Filters from './components/Filters.vue'
+import DateAndRates from './components/DateAndRates.vue'
 
 export default {
   name: 'app',
   components: {
     Navbar,
+    DateAndRates,
     AirtableData,
     Dashboard,
     Filters
