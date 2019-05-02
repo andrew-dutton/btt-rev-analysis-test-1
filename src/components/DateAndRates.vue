@@ -111,7 +111,7 @@ export default {
       }
     },
     getFxUsage() {
-      axios.get('https://openexchangerates.org/api/usage.json?app_id=2312e9ebca594bc88ad456acefdd39e8')
+      axios.get('https://openexchangerates.org/api/usage.json?app_id=API_KEY')
         .then(response => {
           console.log(response.data.data.usage.requests_remaining)
           console.log(response.data.data.usage.days_remaining)
