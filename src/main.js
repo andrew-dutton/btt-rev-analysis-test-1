@@ -3,9 +3,11 @@ import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 import '../src/assets/css/custom.scss'
 
+
 import 'moment/moment.js'
 import 'pikaday/pikaday.js'
 import 'pikaday/css/pikaday.css'
+import 'flag-icon-css/css/flag-icon.css'
 
 Vue.use(BootstrapVue)
 

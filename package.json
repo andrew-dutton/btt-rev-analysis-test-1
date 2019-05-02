@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.18",
     "core-js": "^2.6.5",
+    "flag-icon-css": "^3.3.0",
     "handsontable": "^7.0.2",
     "moment": "^2.24.0",
     "node-sass": "^4.11.0",

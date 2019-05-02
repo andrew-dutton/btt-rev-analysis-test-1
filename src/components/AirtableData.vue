@@ -38,7 +38,7 @@ export default {
           { data: 'currency', className: 'htCenter' },
           { data: 'territory', className: 'htCenter' },
           { data: 'finYear', className: 'htCenter' },
-          { data: 'total', type: 'numeric',
+          { data: 'total', type: 'numeric', className: 'htLeft',
             numericFormat: {
               pattern: '$ 0,0.00',
               culture: 'en-US'}}
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     getData() {
-      axios.get('https://api.airtable.com/v0/appes0AhRWhnBvazS/Revenue%20Data?api_key=keyjtlRAZz7fn2hyK')
+      axios.get('https://api.airtable.com/v0/appes0AhRWhnBvazS/Revenue%20Data?api_key=API_KEY')
       .then(response => {
         this.records = response.data.records
         this.records.forEach(item => {
