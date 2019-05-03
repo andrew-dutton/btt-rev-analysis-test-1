@@ -1,88 +1,87 @@
 <template>
-  <div id="data">
-    <div id="buttonPadding">
-      <b-button variant="warning" v-on:click="clickToGetData">Click to get data</b-button>
+  <div>
+    <div class="textbox">
+      <p class="alignleft">{{ today }}</p>
+      <p class="alignright">
+        <span id="usd" @click="select($event)" class="flag-icon flag-icon-us"></span>  ${{ usd }}  
+        <span id="aud" @click="select($event)" class="flag-icon flag-icon-au"></span>  ${{ aud }} 
+        <span id="cad" @click="select($event)" class="flag-icon flag-icon-ca"></span>  ${{ cad }}   
+        <span id="nzd" @click="select($event)" class="flag-icon flag-icon-nz"></span>  ${{ nzd }}    
+        <span id="gbp" @click="select($event)" class="flag-icon flag-icon-gb"></span>  £{{ gbp }}
+      </p>
     </div>
-    <div v-if="dataDisplay">
-      <hot-table id="tableData" licenseKey='non-commercial-and-evaluation' :settings="settings"></hot-table>
-    </div>
+    <div style="clear: both;"></div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import { HotTable } from '@handsontable/vue'
+import moment from 'moment';
+import axios from 'axios';
 
 export default {
-  name: 'Index',
-  data () {
+  name: 'dateAndRates',
+  modules: moment,
+  data() {
     return {
-      settings: {
-        data: [],
-        colHeaders: ['Invoice<br>Number', 'Invoice<br>Date', 'Client Name', 'Revenue<br>Type', 'Item<br>Type', 'EB/<br>NB', 'Item<br>Code', 'Account<br>Code', 'Start<br>Date', 'End<br>Date', 'Term<br>Days', 'Term<br>Months', '$ Value<br>month', 'Currency', 'Territory', 'FY','Total'
-        ],
-        columns: [
-          { data: 'invoiceNumber' }, 
-          { data: 'invoiceDate', type: 'date'}, 
-          { data: 'clientName' },
-          { data: 'revenueType' },
-          { data: 'itemType' },
-          { data: 'ebVnb', className: 'htCenter' },
-          { data: 'itemCode' },
-          { data: 'accountCode', className: 'htCenter' },
-          { data: 'contractStart' },
-          { data: 'contractEnd' },
-          { data: 'days', className: 'htCenter' },
-          { data: 'months', className: 'htCenter' },
-          { data: 'valuePerMonth' },
-          { data: 'currency', className: 'htCenter' },
-          { data: 'territory', className: 'htCenter' },
-          { data: 'finYear', className: 'htCenter' },
-          { data: 'total', type: 'numeric', className: 'htLeft',
-            numericFormat: {
-              pattern: '$ 0,0.00',
-              culture: 'en-US'}}
-          ],
-        rowHeaders: [],
-        columnSorting: true,
-        manualColumnResize: true,
-        manualRowResize: true,
-        dropdownMenu: true,
-        filters: true,
-        colWidths:[70, 97, 395, 155, 88, 41, 97, 60, 79, 78, 42, 49, 94, 56, 55, 41, 88]
-        },
-      records: [],
-      dataDisplay: false
-    }
-  },
-  components: {
-    HotTable
+      today: "",
+      usd: "-",
+      aud: "-",
+      nzd: "-",
+      gbp: "-",
+      cad: "-",
+      usFlag: 'USD',
+      auFlag: "AUD",
+      nzFlag: "NZD",
+      gbFlag: "GBP",
+      caFlag: "CAD",
+      base: 0
+      }
   },
   methods: {
-    getData() {
-      axios.get('https://api.airtable.com/v0/appes0AhRWhnBvazS/Revenue%20Data?api_key=API_KEY')
-      .then(response => {
-        this.records = response.data.records
-        this.records.forEach(item => {
-          this.settings.data.push(item.fields)
-        })
-      }).catch(err => {
-          console.log(err)
-      })
-  },
-    clickToGetData() {
-      this.settings.data = []
-      this.dataDisplay = !this.dataDisplay
-      if (this.dataDisplay) {
-        this.getData()  
-      }
+    getFxRates() {
+      axios.get('https://openexchangerates.org/api/latest.json?app_id=API_KEY')
+        .then(response => {
+          this.usd = parseFloat(1).toFixed(2)
+          this.aud = parseFloat(response.data.rates.AUD).toFixed(2)
+          this.nzd = parseFloat(response.data.rates.NZD).toFixed(2)
+          this.gbp = parseFloat(response.data.rates.GBP).toFixed(2)
+          this.cad = parseFloat(response.data.rates.CAD).toFixed(2)
+        })      
+    },
+    select(event) {
+      this.base = this[event.target.id]
+      this.usd = parseFloat(this.usd / this.base).toFixed(2)
+      this.aud = parseFloat(this.aud / this.base).toFixed(2)
+      this.nzd = parseFloat(this.nzd / this.base).toFixed(2)
+      this.gbp = parseFloat(this.gbp / this.base).toFixed(2)
+      this.cad = parseFloat(this.cad / this.base).toFixed(2)
+    },
+    getFxUsage() {
+      axios.get('https://openexchangerates.org/api/usage.json?app_id=API_KEY')
+        .then(response => {
+          console.log(response.data.data.usage.requests_remaining)
+          console.log(response.data.data.usage.days_remaining)
+        })      
     }
+  },
+  created() {
+    this.today = moment().format('Do MMMM YYYY, h:mm a');
+    this.getFxRates()
+    this.getFxUsage()
   }
-
 }
-
 </script>
 
-<style src="../../node_modules/handsontable/dist/handsontable.full.css">
+<style scoped>
+
+.textbox {
+  padding: 10px
+}
+.alignleft {
+	float: left;
+}
+.alignright {
+	float: right;
+}
 
 </style>
